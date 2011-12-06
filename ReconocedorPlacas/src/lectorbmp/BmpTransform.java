@@ -7,6 +7,8 @@ package lectorbmp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,15 +21,15 @@ public class BmpTransform {
     private long ancho;
     private long alto;
     private long resto;
-    private int deadline = 60 ;
-    private long matriz[][];
+    private int matriz[][][];
     
     public void readBMP(File archivo){
         try {
             fis = new FileInputStream(archivo);
             metadataBMP();
+            fis.close();
         } catch (IOException ex) {
-            System.out.println("Ha ocurrido un error");
+            System.out.println("Ha ocurrido un error\n"+ex);
         }
     }
     
@@ -44,40 +46,31 @@ public class BmpTransform {
             ancho |= ((long) (datos[i] & 0xff)) << bite;
             bite += 8;
         }
-        
-        System.out.println(ancho + " px Ancho");
-
         bite = 0;
         for (int i = 22; i <= 25; i++) {
             alto |= ((long) (datos[i] & 0xff)) << bite;
             bite += 8;
         }
-        System.out.println(alto + " px Alto");
-        
         resto = ancho % 4;
         createM();
     }
     
     public void createM() throws IOException{
-        matriz = new long[(int)alto][(int)ancho];
+        matriz = new int[(int)alto][(int)ancho][3];
         byte pixeles[] = new byte[3];
         int alt = (int) alto;
         for (int fil = alt; fil > 0; fil--) {
             for (int col = 0; col < ancho; col++) {
                 fis.read(pixeles, 0, 3);
-                long blue = pixeles[0] & 0xff;
-                long green = pixeles[1] & 0xff;
-                long red = pixeles[2] & 0xff;
-                long promedio = (blue + green + red)/3;
-                if(promedio < deadline)
-                    matriz[fil-1][col] = 1;
+                for (int i = 0; i < pixeles.length; i++)
+                    matriz[fil-1][col][2-i] = pixeles[i] & 0xff;
             }
             for (int k = 0; k < resto; k++)
                 fis.read();
         }
     }
     
-    public long[][] getMatriz(){
+    public int[][][] getMatriz(){
         return this.matriz;
     }
     
