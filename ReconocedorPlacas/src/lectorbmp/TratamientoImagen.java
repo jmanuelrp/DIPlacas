@@ -4,6 +4,8 @@
  */
 package lectorbmp;
 
+import java.awt.Color;
+
 /**
  *
  * @author jmanuel
@@ -11,14 +13,21 @@ package lectorbmp;
 public class TratamientoImagen {
     
     private int imgbytes[][][];
-    private int angulocontraste = 60;
+    private int angulocontraste = 80;
     
     public TratamientoImagen(int[][][] imgbytes){
         this.imgbytes = imgbytes;
     }
     
     public void brillo(){
-        
+        for (int i = 0; i < imgbytes.length; i++)
+            for (int j = 0; j < imgbytes[i].length; j++) {
+                Color c = new Color(imgbytes[i][j][0],imgbytes[i][j][1],imgbytes[i][j][2]);
+                c = c.brighter();
+                imgbytes[i][j][0] = c.getRed();
+                imgbytes[i][j][1] = c.getGreen();
+                imgbytes[i][j][2] = c.getBlue();
+            }
     }
     
     public void contraste(){
