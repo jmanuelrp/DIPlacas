@@ -55,7 +55,13 @@ public class test_BmpTransform extends javax.swing.JFrame{
         BmpTransform bmp = new BmpTransform();
         bmp.readBMP("tux.bmp");
         TratamientoImagen timg = new TratamientoImagen(bmp.getMatriz());
-        timg.brillo();
+        timg.contraste();
+        timg.nitidez();
+        timg.suavizado();
+        timg.contraste();
+        timg.contraste();
+        timg.nitidez();
+        timg.nitidez();
         int m[][][] = timg.getImgbytes();
         for (int fil = m.length-1; fil > 0; fil--)
             for (int col = 0; col < m[fil].length; col++) {
