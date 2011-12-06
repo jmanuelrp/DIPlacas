@@ -52,7 +52,7 @@ public class TratamientoImagen {
     }
     
     public void nitidez(){
-        int kernel[][] = {{0,-1,0},{0,pesonitidez,0},{0,-1,0}};
+        int kernel[][] = {{0,-1,0},{-1,pesonitidez,-1},{0,-1,0}};
         int skernel = pesonitidez - 4;
         aplicarFiltro(kernel, skernel);
     }
@@ -69,17 +69,15 @@ public class TratamientoImagen {
         aplicarFiltro(kernel, skernel);
     }
     
-    public void aplicarFiltro(int[][] kernel, int skernel){
+    private void aplicarFiltro(int[][] kernel, int skernel){
         for (int i = 1; i < imgbytes.length -1; i++)
             for (int j = 1; j < imgbytes[i].length-1; j++)
                 for (int k = 0; k < imgbytes[i][j].length; k++) {
                     imgbytes[i][j][k] *= kernel[1][1];
                     for (int l = 0; l < kernel.length; l++)
                         for (int m = 0; m < kernel[l].length; m++) {
-                            if(l==m) continue;
-                            int y = ( (i-1-l) < 0 )? i+1 : i-1-l ;
-                            int x = ( (j-1-m) < 0 )? j+1 : j-1-m ;
-                            imgbytes[i][j][k]+=(imgbytes[y][x][k]*kernel[l][m]);
+                            if(l==1 && l==m) continue;
+                            imgbytes[i][j][k]+=(imgbytes[i-1+l][j-1+m][k]*kernel[l][m]);
                         }
                     imgbytes[i][j][k] /= skernel;
                     if( imgbytes[i][j][k] < 0 ) imgbytes[i][j][k] = 0;
