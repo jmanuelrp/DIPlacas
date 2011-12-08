@@ -23,6 +23,18 @@ public class TratamientoImagen {
         this.imgbytes = imgbytes;
     }
     
+    public void grises(){
+        for (int i = 0; i < imgbytes.length; i++)
+            for (int j = 0; j < imgbytes[i].length; j++) {
+                int gris = 0;
+                for (int k = 0; k < imgbytes[i][j].length; k++)
+                    gris += imgbytes[i][j][k];
+                gris /= 3;
+                for (int k = 0; k < imgbytes[i][j].length; k++)
+                    imgbytes[i][j][k] = gris;
+            }
+    }
+    
     public void brillo(){
         for (int i = 0; i < imgbytes.length; i++)
             for (int j = 0; j < imgbytes[i].length; j++) {
@@ -106,5 +118,20 @@ public class TratamientoImagen {
         this.angulocontraste = angulocontraste;
     }
     
+    public void setPesoBlur(int peso) {
+        this.pesoblur = peso;
+    }
+    
+    public void setPesoNitidez(int peso) {
+        this.pesonitidez = peso;
+    }
+    
+    public void setPesoSuavizado(int peso) {
+        this.pesosuavizado = peso;
+    }
+    
+    public void setPesoRenovar(int peso) {
+        this.pesorenovar = peso;
+    }
     
 }
